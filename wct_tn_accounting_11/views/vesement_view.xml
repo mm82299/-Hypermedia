@@ -1,0 +1,455 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <record id="view_vesement_filter" model="ir.ui.view">
+            <field name="name">Vesement Search</field>
+            <field name="model">account.vesement</field>
+            <field name="arch" type="xml">
+                <search string="Vesement Search">
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Valid" domain="[('state','=','valid')]"/>
+                    <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <newline/>
+                    <group>
+                        <field name="name"/>
+                        <field name="date_vesement"/>
+                        <field name="bank_target"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Bank" domain="[]" context="{'group_by':'bank_target'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date_vesement'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_vesement_form">
+            <field name="name">account.vesement.form</field>
+            <field name="model">account.vesement</field>
+            <field name="arch" type="xml">
+                <form string="Vesement Document">
+                    <header>
+                        <button name="button_validate" states="draft" string="Validate" type="object" icon="terp-camera_test"/>
+                        <button name="button_cancel"   states="valid" string="Cancel" type="object" icon="gtk-cancel" groups="account.group_account_manager"/>
+                        <button name="button_draft"    states="cancel" string="Set to Draft" type="object" icon="gtk-convert" groups="account.group_account_manager"/>
+                        <field name="state" widget="statusbar" statusbar_colors='{"validate":"blue","cancel":"gray"}'/>
+                    </header>
+                    <sheet string="Vesement Document" >
+                        <h1><field name="name" class="oe_inline" readonly="1"/></h1>
+                        <group>
+                            <group>
+                                <field name="date_vesement" required="1"/>
+                                <field name="bank_target" required="1" widget="selection"/>
+                                <field name="journal_id" required="1" widget="selection"/>
+                                <field name="company_id" required="1" widget="selection"/>
+                            </group>
+                            <group>
+                                <field name="number"/>                            
+                                <field name="date_from" required="1"/>
+                                <field name="date_to" required="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Treasury">
+                                <field name="treasury_ids" colspan="4" nolabel="1" domain="[('state', '=', 'valid')]"/>
+                            </page>
+                            <page string="Notes">
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                            <page string="Journal Items" attrs="{'invisible': [('state','!=','valid')]}">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Journal Items">
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="date"/>
+                                        <field name="statement_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <!--<field name="state"/>-->
+                                        <!--<field name="reconcile_id"/>-->
+                                        <field name="amount_currency" groups="base.group_multi_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_vesement_tree">
+            <field name="name">account.vesement.tree</field>
+            <field name="model">account.vesement</field>
+            <field name="arch" type="xml">
+                <tree string='Vesement Document' colors="draft:state=='valid';'cancel:state=='cancel'">
+                    <field name="name"/>
+                    <field name="date_vesement"/>
+                    <field name="bank_target"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="account_action_form_vesement">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Vesement Documents</field>
+            <field name="res_model">account.vesement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Remise chèques" parent="account.menu_finance_entries" id="vesement_document"
+                  action="account_action_form_vesement"  sequence="1"/>
+
+
+        <record id="view_vesement_cash_filter" model="ir.ui.view">
+            <field name="name">Vesement Search</field>
+            <field name="model">account.vesement.cash</field>
+            <field name="arch" type="xml">
+                <search string="Vesement Search">
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Valid" domain="[('state','=','valid')]"/>
+                    <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <newline/>
+                    <group>
+                        <field name="name"/>
+                        <field name="date_vesement"/>
+                        <field name="journal_source"/>
+                        <field name="bank_target"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="bank Target" domain="[]" context="{'group_by':'bank_target'}"/>
+                        <filter string="Journal Source" domain="[]" context="{'group_by':'journal_source'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date_vesement'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_vesement_cash_form">
+            <field name="name">account.vesement.form</field>
+            <field name="model">account.vesement.cash</field>
+            <field name="arch" type="xml">
+                <form string="Vesement Document">
+                    <header>
+                        <button name="button_validate" states="draft" string="Validate" type="object" icon="terp-camera_test"/>
+                        <button name="button_cancel"   states="valid" string="Cancel" type="object" icon="gtk-cancel" groups="account.group_account_manager"/>
+                        <button name="button_draft"    states="cancel" string="Set to Draft" type="object" icon="gtk-convert" groups="account.group_account_manager"/>
+                        <field name="state" widget="statusbar" statusbar_colors='{"validate":"blue","cancel":"gray"}'/>
+                    </header>
+                    <sheet string="Vesement Document" >
+                        <h1><field name="name" class="oe_inline" readonly="1"/></h1>
+                        <group>
+                            <group>
+                                <field name="date_vesement" required="1"/>
+                                <field name="amount" required="1"/>
+                                <field name="company_id" required="1" widget="selection"/>
+                            </group>
+                            <group>
+                                <field name="number"/>                            
+                                <field name="journal_source" required="1" widget="selection"/>
+                                <field name="bank_target" required="1" widget="selection"/>
+                                <field name="journal_target" required="1" widget="selection"/>
+                                <field name="account_id"/>                                
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Notes">
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                            <page string="Journal Items" attrs="{'invisible': [('state','!=','valid')]}">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Journal Items">
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="date"/>
+                                        <field name="statement_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <!--<field name="state"/>
+                                        <field name="reconcile_id"/>-->
+                                        <field name="amount_currency" groups="base.group_multi_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_vesement_cash_tree">
+            <field name="name">account.vesement.tree</field>
+            <field name="model">account.vesement.cash</field>
+            <field name="arch" type="xml">
+                <tree string='Vesement Document' colors="draft:state=='valid';'cancel:state=='cancel'">
+                    <field name="name"/>
+                    <field name="date_vesement"/>
+                    <field name="journal_source"/>
+                    <field name="bank_target"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="account_action_form_vesement_cash">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Cash Vesement Documents</field>
+            <field name="res_model">account.vesement.cash</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Cash Vesement" parent="account.menu_finance_entries" id="vesement_cash_document"
+                  action="account_action_form_vesement_cash"  sequence="3"/>
+
+
+        <record id="view_withdrawal_cash_filter" model="ir.ui.view">
+            <field name="name">Withdrawal Search</field>
+            <field name="model">account.withdrawal.cash</field>
+            <field name="arch" type="xml">
+                <search string="Withdrawal Search">
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Valid" domain="[('state','=','valid')]"/>
+                    <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <newline/>
+                    <group>
+                        <field name="name"/>
+                        <field name="date_withdrawal"/>
+                        <field name="bank_source"/>
+                        <field name="journal_target"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="bank Source" domain="[]" context="{'group_by':'bank_source'}"/>
+                        <filter string="Journal Traget" domain="[]" context="{'group_by':'journal_target'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date_withdrawal'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_withdrawal_cash_form">
+            <field name="name">account.withdrawal.form</field>
+            <field name="model">account.withdrawal.cash</field>
+            <field name="arch" type="xml">
+                <form string="Withdrawal Document">
+                    <header>
+                        <button name="button_validate" states="draft" string="Validate" type="object" icon="terp-camera_test"/>
+                        <button name="button_cancel"   states="valid" string="Cancel" type="object" icon="gtk-cancel" groups="account.group_account_manager"/>
+                        <button name="button_draft"    states="cancel" string="Set to Draft" type="object" icon="gtk-convert" groups="account.group_account_manager"/>
+                        <field name="state" widget="statusbar" statusbar_colors='{"validate":"blue","cancel":"gray"}'/>
+                    </header>
+                    <sheet string="Withdrawal Document" >
+                        <h1><field name="name" class="oe_inline" readonly="1"/></h1>
+                        <group>
+                            <group>
+                                <field name="date_withdrawal" required="1"/>
+                                <field name="amount" required="1"/>
+                                <field name="company_id" required="1" widget="selection"/>
+                            </group>
+                            <group>
+                                <field name="number"/>
+                                <field name="bank_source" required="1" widget="selection"/>
+                                <field name="journal_source" required="1" widget="selection"/>
+                                <field name="journal_target" required="1" widget="selection"/>
+                                <field name="account_id"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Notes">
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                            <page string="Journal Items" attrs="{'invisible': [('state','!=','valid')]}">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Journal Items">
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="date"/>
+                                        <field name="statement_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <!--<field name="state"/>
+                                        <field name="reconcile_id"/>-->
+                                        <field name="amount_currency" groups="base.group_multi_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_withdrawal_cash_tree">
+            <field name="name">account.withdrawal.tree</field>
+            <field name="model">account.withdrawal.cash</field>
+            <field name="arch" type="xml">
+                <tree string='Withdrawal Document' colors="draft:state=='valid';'cancel:state=='cancel'">
+                    <field name="name"/>
+                    <field name="date_withdrawal"/>
+                    <field name="bank_source"/>
+                    <field name="journal_target"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="account_action_form_withdrawal_cash">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Cash withdrawal Documents</field>
+            <field name="res_model">account.withdrawal.cash</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Cash withdrawal" parent="account.menu_finance_entries" id="withdrawal_cash_document"
+                  action="account_action_form_withdrawal_cash"  sequence="4"/>
+
+        <record id="view_vesement_traite_filter" model="ir.ui.view">
+            <field name="name">Vesement Search</field>
+            <field name="model">account.vesement.traite</field>
+            <field name="arch" type="xml">
+                <search string="Vesement Search">
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Valid" domain="[('state','=','valid')]"/>
+                    <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <newline/>
+                    <group>
+                        <field name="name"/>
+                        <field name="date_vesement"/>
+                        <field name="bank_target"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Bank" domain="[]" context="{'group_by':'bank_target'}"/>
+                        <filter string="State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date_vesement'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_vesement_traite_form">
+            <field name="name">account.vesement.traite.form</field>
+            <field name="model">account.vesement.traite</field>
+            <field name="arch" type="xml">
+                <form string="Vesement Document">
+                    <header>
+                        <button name="button_validate" states="draft" string="Validate" type="object" icon="terp-camera_test"/>
+                        <button name="button_cancel"   states="valid" string="Cancel" type="object" icon="gtk-cancel" groups="account.group_account_manager"/>
+                        <button name="button_draft"    states="cancel" string="Set to Draft" type="object" icon="gtk-convert" groups="account.group_account_manager"/>
+                        <field name="state" widget="statusbar" statusbar_colors='{"validate":"blue","cancel":"gray"}'/>
+                    </header>
+                    <sheet string="Vesement Document" >
+                        <h1><field name="name" class="oe_inline" readonly="1"/></h1>
+                        <group>
+                            <group>
+                                <field name="date_vesement" required="1"/>
+                                <field name="bank_target" required="1" widget="selection"/>
+                                <field name="journal_id" required="1" widget="selection"/>
+                                <field name="company_id" required="1" widget="selection"/>
+                            </group>
+                            <group>
+                                <field name="date_from" required="1"/>
+                                <field name="date_to" required="1"/>
+                                <field name="number"/>                             
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Treasury">
+                                <field name="treasury_ids" colspan="4" nolabel="1" domain="[('state', '=', 'valid')]"/>
+                            </page>
+                            <page string="Notes">
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                            <page string="Journal Items" attrs="{'invisible': [('state','!=','valid')]}">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Journal Items">
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="date"/>
+                                        <field name="statement_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <!--<field name="state"/>
+                                        <field name="reconcile_id"/>-->
+                                        <field name="amount_currency" groups="base.group_multi_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_vesement_traite_tree">
+            <field name="name">account.vesement.traite.tree</field>
+            <field name="model">account.vesement.traite</field>
+            <field name="arch" type="xml">
+                <tree string='Vesement Document' colors="draft:state=='valid';'cancel:state=='cancel'">
+                    <field name="name"/>
+                    <field name="date_vesement"/>
+                    <field name="bank_target"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="account_action_form_vesement_traite">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Vesement Traite</field>
+            <field name="res_model">account.vesement.traite</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Remise Effets" parent="account.menu_finance_entries" id="vesement_document_traite"
+                  action="account_action_form_vesement_traite"  sequence="2"/>
+
+
+	</data>
+</openerp>

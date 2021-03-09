@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_payment_withholding_form" model="ir.ui.view">
+            <field name="name">account.payment.withholding.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <field name="communication" position="after">
+                    <field name="journal_withholding_id"/>
+                </field>
+                <xpath expr="//sheet/group" position="after">
+                    <group>
+                        <field name="withholding_ids" nolabel="1" colspan="4"
+                               context="{'default_type':payment_type,'amount_readonly':amount }"/>
+                        <field name="withholdings_amount" widget="monetary"
+                               options="{'currency_field': 'currency_id'}"/>
+                        <field name="net_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_payment_invoice_withholding_form" model="ir.ui.view">
+            <field name="name">account.payment.invoice.withholding.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group" position="after">
+                    <group>
+                        <field name="journal_withholding_id"/>
+                        <field name="withholding_ids" nolabel="1" colspan="4"
+                               context="{'default_type':payment_type,'amount_readonly':amount }"/>
+                        <field name="withholdings_amount" widget="monetary"
+                               options="{'currency_field': 'currency_id'}"/>
+                        <field name="net_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

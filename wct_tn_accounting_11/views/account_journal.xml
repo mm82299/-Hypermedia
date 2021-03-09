@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="treasury_view_account_journal_form" model="ir.ui.view">
+            <field name="name">treasury.view_account_journal_form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                   <!-- <field name="document_type" widget="selection" attrs="{'invisible': [('type', 'not in', ('bank', 'cash'))], 'required': [('type', '=', 'bank'), ('is_payment','=',True)]}"/>-->
+                    <field name="temporary_bank_journal" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
+                    <field name="is_payment" attrs="{'invisible': [('type', 'not in', ('bank', 'cash'))]}"/>
+                </xpath>
+                <xpath expr="//notebook/page[1]/group[1]" position="after">
+                    <field name="bank_ids" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

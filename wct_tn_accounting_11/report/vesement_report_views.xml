@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            string="Cash Vesement"
+            id="action_report_cash_vesement"
+            model="account.vesement.cash"
+            report_type="qweb-pdf"
+            name="wct_tn_accounting_11.report_vesement_cash"
+            file="wct_tn_accounting_11.report_vesement_cash"
+        />
+
+        <report
+            string="Check Vesement"
+            id="action_report_check_vesement"
+            model="account.vesement"
+            report_type="qweb-pdf"
+            name="wct_tn_accounting_11.report_vesement_check"
+            file="wct_tn_accounting_11.report_vesement_check"
+        />
+
+        <report
+            string="Treaty Vesement"
+            id="action_report_treaty_vesement"
+            model="account.vesement.traite"
+            report_type="qweb-pdf"
+            name="wct_tn_accounting_11.report_vesement_treaty"
+            file="wct_tn_accounting_11.report_vesement_treaty"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="withholding_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <style>
+                                td, th{border:solid 1px;text-align:center;}
+                            </style>
+
+                            <p style="font-size: 1.1em; width:40%; display: inline-block;vertical-align:top;text-align: center;">
+                                <strong>REPUBLIQUE TUNISIENNE</strong>
+                                <br/>
+                                <strong>MINISTERE DU PLAN ET DES FINANCES</strong>
+                                <br/>
+                                <strong>DIRECTION GENERALE DU CONTROLE FISCAL</strong>
+                            </p>
+                            <p style="margin-left:10%; font-size: 1.1em; width:40%; display: inline-block;vertical-align:top;text-align: center;">
+                                <strong>CERTIFICAT DE RETENUE D'IMPOT SUR LE REVENU</strong>
+                            </p>
+                            <t t-if="not data['date_start']">
+                                <p style="text-align:left;width:40%;margin:auto;">
+                                    Retenue effectuée le
+                                    <strong t-esc="data['date_stop'].strftime('%d/%m/%Y')"/>
+                                </p>
+                            </t>
+                            <t t-if="data['date_start']">
+                                <p style="text-align:left;width:60%;margin:auto;">
+                                    Retenue effectuée pendant
+                                    <strong t-esc="data['date_start'].strftime('%d/%m/%Y')"/>
+                                    et
+                                    <strong t-esc="data['date_stop'].strftime('%d/%m/%Y')"/>
+                                </p>
+                            </t>
+
+
+                            <div style="border:solid 2px;padding:20px;padding-bottom: 100px">
+                                <p style="text-align:left; width: 40%; display: inline-block;">
+                                    <strong>A - PERSONNE OU ORGANISME PAYEUR</strong>
+                                </p>
+                                <table style="display: inline-block;vertical-align: middle;width: 40%;margin-left: 19%">
+                                    <tbody style="">
+                                        <tr>
+                                            <td colspan="13" style="border: 0;text-align: center;">
+                                                <strong>IDENTIFIANT</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="40%" colspan="8">Matricule Fiscal</td>
+                                            <td width="20%">Code T.V.A.</td>
+                                            <td width="20%">Code Catégorie(2)</td>
+                                            <td width="20%" colspan="3">N° Etab Secondaire</td>
+                                        </tr>
+                                        <tr t-if="data['type']=='in_withholding'">
+                                            <t t-foreach="tax_id(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="tva_code(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="categ_code(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="etb_num(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                        </tr>
+                                        <tr t-if="data['type']=='out_withholding'">
+                                            <t t-foreach="tax_id(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="tva_code(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="categ_code(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="etb_num(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="text-align:left;margin-top: 2%" t-if="data['type']=='out_withholding'">
+                                    Dénomination de la personne ou de l'organisme payeur :
+                                    <strong t-esc="data['suplier'].name"/>
+                                </p>
+                                <p style="text-align:left" t-if="data['type']=='out_withholding'">
+                                    Adresse :
+                                    <strong t-field="data['suplier'].street"/>
+                                </p>
+                                <p style="text-align:left;margin-top: 2%" t-if="data['type']=='in_withholding'">
+                                    Dénomination de la personne ou de l'organisme payeur :
+                                    <strong t-esc="data['partner'].name"/>
+                                </p>
+                                <p style="text-align:left" t-if="data['type']=='in_withholding'">
+                                    Adresse :
+                                    <strong t-field="data['partner'].partner_id.street"/>
+                                </p>
+                                <table style="width: 100%;margin-bottom: 2%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:left;">B - RETENUES EFFECTUEES SUR :</th>
+                                            <th>MONTANT BRUT</th>
+                                            <th>RETENUE</th>
+                                            <th>MONTANT NET</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="data['withholding_tab']" t-as="w">
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    <span t-esc="w"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'%.3f' % data['withholding_tab'][w]['amount']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'%.3f' % data['withholding_tab'][w]['withholding']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'%.3f' % data['withholding_tab'][w]['net_amount']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-foreach="data['withholdings']" t-as="w">
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    <span t-esc="w"/>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>TOTAL GENERAL</th>
+                                            <th>
+                                                <span t-esc="'%.3f' % data['amount']"/>
+                                            </th>
+                                            <th>
+                                                <span t-esc="'%.3f' % data['withholding']"/>
+                                            </th>
+                                            <th>
+                                                <span t-esc="'%.3f' % data['net_amount']"/>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+				<!--add-15-01-2021-by-ghy-->
+
+				<table style="width: 100%;margin-bottom: 2%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:left;"> Retenue à la source SUR :</th>
+                                            <th>DATE FACTURE</th>
+                                            <th>NUMERO FACTURE</th>
+                                            <th>MONTANT FACTURE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+					<t t-if="'type','=','out_invoice'">
+                                        <t t-foreach="docs.account_invoice_ids" t-as="f">
+                                                
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    <span t-esc="w" />
+                                                </td>
+                                            
+                                                <td>
+                                                    <span t-field="f.date_invoice"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="f.number"/>
+                                                </td>
+    						<td>
+                                                    <span t-field="f.amount_total_signed"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+					</t>
+				</tbody>
+				</table>
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <p style="text-align:left; width: 40%; display: inline-block;">
+                                    <strong>C - BENEFICIAIRE</strong>
+                                </p>
+
+                                <table style="display: inline-block;vertical-align: middle;width: 40%;margin-left: 19%">
+                                    <tbody style="">
+                                        <tr>
+                                            <td colspan="13" style="border: 0;text-align: center;">
+                                                <strong>IDENTIFIANT</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="40%" colspan="8">Matricule Fiscal</td>
+                                            <td width="20%">Code T.V.A.</td>
+                                            <td width="20%">Code Catégorie(2)</td>
+                                            <td width="20%" colspan="3">N° Etab Secondaire</td>
+                                        </tr>
+                                        <tr t-if="data['type']=='in_withholding'">
+                                            <t t-foreach="tax_id(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="tva_code(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="categ_code(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="etb_num(data['suplier'].vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                        </tr>
+                                        <tr t-if="data['type']=='out_withholding'">
+                                            <t t-foreach="tax_id(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="tva_code(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="categ_code(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                            <t t-foreach="etb_num(data['partner'].partner_id.vat)" t-as="c">
+                                                <td t-esc="c"/>
+                                            </t>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <p style="margin-top: 2%;" t-if="data['type']=='in_withholding'">
+                                    CIN :
+                                    <strong t-esc="data['suplier'].ref"/>
+                                    <br/>
+                                    Nom, Prénom ou Raison Social :
+                                    <strong t-esc="data['suplier'].name"/>
+                                    <br/>
+                                    Adresse Professionnelle :
+                                    <strong t-field="data['suplier'].street"/>
+                                </p>
+                                <p style="margin-top: 2%;" t-if="data['type']=='out_withholding'">
+                                    CIN :
+                                    <strong t-esc="data['partner'].partner_id.ref"/>
+                                    <br/>
+                                    Nom, Prénom ou Raison Social :
+                                    <strong t-esc="data['partner'].partner_id.name"/>
+                                    <br/>
+                                    Adresse Professionnelle :
+                                    <strong t-field="data['partner'].partner_id.street"/>
+                                </p>
+                                <hr style="border: solid black 1px"></hr>
+                                <p style="text-align:center;width: 60%;margin-left: 40%;"
+                                   t-if="data['type']=='out_withholding'">
+                                    Je soussigne, certifie exacts les renseignements figurant sur le présent
+                                    Certficat et m'expose aux sanctions prévues par la loi pour toute inexactitude.
+                                    <br/>
+                                    A
+                                    <span t-field="data['partner'].partner_id.street"/>
+                                    , LE
+                                    <span t-esc="data['date_stop'].strftime('%d/%m/%Y')"/>
+                                    <br/>
+                                    <strong>Cachet et Signature du payeur</strong>
+                                </p>
+                                <p style="text-align:center;width: 60%;margin-left: 40%;"
+                                   t-if="data['type']=='in_withholding'">
+                                    Je soussigne, certifie exacts les renseignements figurant sur le présent
+                                    Certficat et m'expose aux sanctions prévues par la loi pour toute inexactitude.
+                                    <br/>
+                                    A
+                                    <span t-field="data['suplier'].street"/>
+                                    , LE
+                                    <span t-esc="data['date_stop'].strftime('%d/%m/%Y')"/>
+                                    <br/>
+                                    <strong>Cachet et Signature du payeur</strong>
+                                </p>
+
+                            </div>
+                            <p>
+                                (1) Le certificat est délivré à l'occasion de chaque paiement toutefois pour les
+                                opérations répétitives le certificat peut être délivré trimestriellement
+                                <br/>
+                                (2) Code catégories : M. personnes morales-C.personne physiques-Industrie et commerce-P.
+                                Professions libérales N. employeurs non soumis à l'impôt sur le revenu ou sur les
+                                sociétés ( administrations et établissement publics) Etablissement secondaire .
+                            </p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="action_withholding_report"
+                model="account.withholding"
+                string="Withholding Document"
+                report_type="qweb-pdf"
+                name="wct_tn_accounting_11.withholding_report"
+                file="wct_tn_accounting_11.withholding_report"
+                menu="True"
+        />
+        <record id="paperformat_withholding_report" model="report.paperformat">
+            <field name="name">paper format withholding report</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">80</field>
+        </record>
+
+        <record id="action_withholding_report" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_withholding_report"/>
+        </record>
+    </data>
+</odoo>

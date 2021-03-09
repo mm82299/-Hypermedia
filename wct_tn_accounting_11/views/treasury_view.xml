@@ -1,0 +1,351 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <act_window name="Treasury Documents"
+                    domain="[('partner_id', '=', active_id)]"
+                    res_model="account.treasury"
+                    src_model="res.partner"
+                    id="act_treasury_partner"/>
+
+        <record model="ir.ui.view" id="account_treasury_type_form">
+            <field name="name">account.treasury.type.form</field>
+            <field name="model">account.treasury.type</field>
+            <field name="arch" type="xml">
+                <form string="Treasury Type Document">
+                    <sheet string="Treasury Type Document">
+                        <group>
+                            <field name="name"/>
+                            <field name="letter_of_credit"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_treasury_type_tree">
+            <field name="name">account.treasury.type.tree</field>
+            <field name="model">account.treasury.type</field>
+            <field name="arch" type="xml">
+                <tree string='Treasury Type Document'>
+                    <field name="name"/>
+                    <field name="letter_of_credit"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="treasury_type_action">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Treasury Documents</field>
+            <field name="res_model">account.treasury.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Treasury Type Documents" parent="account.account_account_menu" id="treasury_type_document"
+                  action="treasury_type_action"/>
+
+        <record id="view_treasury_filter" model="ir.ui.view">
+            <field name="name">Treasury Search</field>
+            <field name="model">account.treasury</field>
+            <field name="arch" type="xml">
+                <search string="Treasury Search">
+                    <filter string="Receipt" domain="[('type_transaction','=','receipt')]"/>
+                    <filter string="Payment" domain="[('type_transaction','=','payment')]"/>
+                    <separator orientation="vertical"/>
+                    <filter string="Check" domain="[('type','=','ch')]"/>
+                    <filter string="Coupon" domain="[('type','=','co')]"/>
+                    <separator orientation="vertical"/>
+                    <filter string="In Cash" domain="[('state','=','in_cash')]"/>
+                    <filter string="Versed" domain="[('state','=','versed')]"/>
+                    <filter string="Paid" domain="[('state','=','paid')]"/>
+                    <filter string="Notice" domain="[('state','=','notice')]"/>
+                    <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                    <newline/>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="bank_source"/>
+                        <field name="journal_target"/>
+                        <field name="user_id"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Group by Type Transaction" domain="[]"
+                                context="{'group_by':'type_transaction'}"/>
+                        <filter string="Group by State" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Group by Possessor" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Group by Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Group by Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Group by Clearing Date" domain="[]" context="{'group_by':'clearing_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_treasury_form">
+            <field name="name">account.treasury.form</field>
+            <field name="model">account.treasury</field>
+            <field name="arch" type="xml">
+                <form string="Treasury Document" create="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_colors='{"notice":"red","cancel":"gray","paid":"green"}' clickable="True"/>
+                    </header>
+                    <sheet string="Treasury Document">
+                        <h1>
+                            <label for="name"/>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="amount" widget="monetary"
+                                       options="{'currency_field': 'currency_id','digits': 'Product Price'}"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="partner_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="holder"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="journal_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="type" widget="selection"/>
+                                <field name="type_transaction"/>
+                            </group>
+                            <group string="Cash Register" colspan="8">
+                                <group>
+                                    <field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="cashier_id"/>
+                                </group>
+                                <group>
+                                    <field name="partner_steed"/>
+                                    <field name="steed_id" options="{'no_create': True, 'no_open': True}"
+                                           attrs="{'invisible':[('partner_steed','=',True)],'required':[('partner_steed','=',False)]}"/>
+                                    <field name="value" widget="monetary"
+                                           options="{'currency_field': 'currency_id','digits': 'Product Price'}"/>
+                                </group>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Treasury information">
+                                <group>
+                                    <group>
+                                        <field name="bank_source" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="journal_target" options="{'no_create': True, 'no_open': True}"/>
+                                        <!--<field name="done_date"/>-->
+                                    </group>
+                                    <group>
+                                        <field name="clearing_date"/>
+                                        <field name="reception_date"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Payment">
+                                <group>
+                                    <group>
+                                        <field name="payment_id" colspan="4"
+                                               options="{'no_create': True, 'no_open': True}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Notes">
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_treasury_tree">
+            <field name="name">account.treasury.tree</field>
+            <field name="model">account.treasury</field>
+            <field name="arch" type="xml">
+                <tree string='Treasury Document' create="false" edit="false"
+                      decoration-muted="state=='in_cash'"
+                      decoration-info="state=='versed'"
+                      decoration-danger="state == 'notice'"
+                      decoration-success="state == 'paid'">
+                    <field name="partner_id"/>
+                    <field name="holder"/>
+                    <field name="value" sum="Total" widget="monetary"
+                           options="{'currency_field': 'currency_id','digits': 'Product Price'}"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="clearing_date"/>
+                    <field name="bank_source"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="type_transaction"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="account_treasury_calendar" model="ir.ui.view">
+            <field name="name">account.treasury.calendar</field>
+            <field name="model">account.treasury</field>
+            <field name="arch" type="xml">
+                <calendar string="Date de compensation" color="type_transaction" date_start="clearing_date"
+                          mode="month">
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                    <field name="bank_source"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="account_action_form_treasury_costumer">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Treasury Documents</field>
+            <field name="res_model">account.treasury</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('type_transaction','=','receipt')]</field>
+            <field name="context">{'default_type_transaction': 'receipt'}</field>
+        </record>
+
+        <menuitem name="Treasury Documents" parent="account.menu_finance_entries"
+                  id="treasury_document_costumer"
+                  action="account_action_form_treasury_costumer"/>
+
+
+        <!--Vendor Treasury Documents-->
+
+
+        <record model="ir.actions.act_window" id="account_action_form_treasury_vendor">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Treasury Documents</field>
+            <field name="res_model">account.treasury</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('type_transaction','=','payment')]</field>
+            <field name="context">{'default_type_transaction': 'payment'}</field>
+        </record>
+
+        <menuitem name="Treasury Documents" parent="account.menu_finance_payables_documents"
+                  id="treasury_document_vendor"
+                  action="account_action_form_treasury_vendor"/>
+
+        <record id="view_account_payment_treasury_form" model="ir.ui.view">
+            <field name="name">account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="journal_type" readonly="1"/>
+                    <field name="document_type" options="{'no_create': True, 'no_open': True}"
+                           widget="selection" attrs="{'required': [('temporary_bank_journal', '=', True)],'invisible': [('temporary_bank_journal', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="temporary_bank_journal" invisible="1"/>
+                </field>
+                <xpath expr="/form/sheet/group[1]" position="after">
+                    <group attrs="{'invisible': [('temporary_bank_journal', '=', False)]}" string="Treasury Documents">
+                        <field name="check_ids"
+                               context="{'default_partner_id':partner_id,'default_amount':amount,'default_type':document_type,'default_journal_id':journal_id}"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}" nolabel="1">
+                            <tree editable="top" decoration-muted="state=='in_cash'"
+                                  decoration-info="state=='versed'"
+                                  decoration-danger="state == 'notice'"
+                                  decoration-success="state == 'paid'">
+                                <field name="name"/>
+                                <field name="amount" sum="Total" widget="monetary"
+                                       options="{'currency_field': 'currency_id','digits': 'Product Price'}"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="partner_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="holder"/>
+                                <field name="bank_source" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="clearing_date"/>
+                                <field name="journal_id" invisible="1"/>
+                                <field name="state" invisible="1"/>
+                                <field name="type" invisible="1"/>
+                                <field name="type_transaction" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_account_payment_invoice_treasury_form" model="ir.ui.view">
+            <field name="name">account.payment.invoice.treasury.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="journal_type" readonly="1"/>
+                    <field name="document_type" options="{'no_create': True, 'no_open': True}"
+                           widget="selection" attrs="{'required': [('temporary_bank_journal', '=', True)],'invisible': [('temporary_bank_journal', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="temporary_bank_journal" invisible="1"/>
+                </field>
+                <xpath expr="/form/sheet/group[1]" position="after">
+                    <group attrs="{'invisible': [('temporary_bank_journal', '=', False)]}">
+                        <field name="check_ids"
+                               context="{'default_partner_id':partner_id,'default_amount':amount,'default_type':document_type,'default_journal_id':journal_id}"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <tree editable="top" decoration-muted="state=='in_cash'"
+                                  decoration-info="state=='versed'"
+                                  decoration-danger="state == 'notice'"
+                                  decoration-success="state == 'paid'">
+                                <field name="name"/>
+                                <field name="amount" sum="Total" widget="monetary"
+                                       options="{'currency_field': 'currency_id','digits': 'Product Price'}"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="partner_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="holder"/>
+                                <field name="bank_source" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="clearing_date"/>
+                                <field name="journal_id" invisible="1"/>
+                                <field name="state" invisible="1"/>
+                                <field name="type" invisible="1"/>
+                                <field name="type_transaction" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_payment_invoices_treasury_form" model="ir.ui.view">
+            <field name="name">account.payment.invoices.treasury.form</field>
+            <field name="model">account.register.payments</field>
+            <field name="inherit_id" ref="account.view_account_payment_from_invoices"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="journal_type" readonly="1"/>
+                    <field name="document_type" options="{'no_create': True, 'no_open': True}"
+                           widget="selection" attrs="{'required': [('temporary_bank_journal', '=', True)],'invisible': [('temporary_bank_journal', '=', False)]}"/>
+                    <field name="temporary_bank_journal" invisible="1"/>
+                </field>
+                <xpath expr="/form/group[1]" position="after">
+                    <group attrs="{'invisible': [('temporary_bank_journal', '=', False)]}">
+                        <field name="check_ids"
+                               context="{'default_partner_id':partner_id,'default_amount':amount,'default_type':document_type,'default_journal_id':journal_id}">
+                            <tree editable="top" decoration-muted="state=='in_cash'"
+                                  decoration-info="state=='versed'"
+                                  decoration-danger="state == 'notice'"
+                                  decoration-success="state == 'paid'">
+                                <field name="name"/>
+                                <field name="amount" sum="Total" widget="monetary"
+                                       options="{'currency_field': 'currency_id','digits': 'Product Price'}"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="partner_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="holder"/>
+                                <field name="bank_source" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="clearing_date"/>
+                                <field name="journal_id" invisible="1"/>
+                                <field name="state" invisible="1"/>
+                                <field name="type" invisible="1"/>
+                                <field name="type_transaction" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

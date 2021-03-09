@@ -1,0 +1,353 @@
+<?xml version="1.0" ?>
+<odoo>
+	<data noupdate="1">
+
+		<record id="res_bank_alubafinternationalbankaib0" model="res.bank">
+			<field name="name">ALUBAF INTERNATIONAL BANK - AIB</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">ALUBTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Rue 8007 Montplaisir</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_arabbankingcorporationabc0" model="res.bank">
+			<field name="name">Arab Banking Corporation - ABC</field>
+			<field name="zip">2045</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">ABCOTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">ABC Building</field>
+			<field name="street2">Les Berges du Lac</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_arabtunisianbankatb0" model="res.bank">
+			<field name="name">Arab Tunisian Bank - ATB</field>
+			<field name="zip">1000</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">ATBKTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Avenue Jean Jaurès</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_attijaribank0" model="res.bank">
+			<field name="name">Attijari Bank</field>
+			<field name="zip">1000</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BSTUTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">95, Avenue de la Liberté</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquealbaraka0" model="res.bank">
+			<field name="name">Banque AL BARAKA</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BEITTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">88, Avenue Hedi Chaker</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquecentraledetunisiebct0" model="res.bank">
+			<field name="name">Banque Centrale de Tunisie - BCT</field>
+			<field name="zip">1001</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BCTNTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">25, Rue Hédi NOUIRA BP777</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquebfpme0" model="res.bank">
+			<field name="city">Tunis</field>
+			<field name="name">Banque de Financement des Petites et Moyennes Entreprises - BFPME</field>
+			<field name="zip">1004</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BFPMTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">34, Rue Hédi Karray Centre Urbain Nord</field>
+			<field name="street2">El Menzah IV</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquedelhabitatbh0" model="res.bank">
+			<field name="name">Banque de l’Habitat - BH</field>
+			<field name="zip">1000</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BHBKTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">18, Avenue Mohamed 5</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquedetunisiebt0" model="res.bank">
+			<field name="name">Banque de Tunisie - BT</field>
+			<field name="zip">1001</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BTBKTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Place 7 Novembre</field>
+			<field name="street2">2 Rue de Turquie</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquedetunisiedesmiratsbte0" model="res.bank">
+			<field name="name">Banque de Tunisie &amp; des Émirats - BTE</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BTEXTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">5 bis, Rue Mohamed BADRA</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquefrancotunisiennebft0" model="res.bank">
+			<field name="name">Banque Franco -Tunisienne - BFT</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BFTNTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">8600 Montplaisir</field>
+			<field name="street2">Belvédère</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banqueinternationalearabedetunisiebiat0" model="res.bank">
+			<field name="name">Banque Internationale Arabe de Tunisie - BIAT</field>
+			<field name="zip">1000</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BIATTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">70/72, Avenue Habib Bourguiba</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquenationaleagricolebna0" model="res.bank">
+			<field name="name">Banque  Nationale Agricole - BNA</field>
+			<field name="zip">1000</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BNTETNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Avenue Mohamed 5</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquetunisiennedesolidaritbts0" model="res.bank">
+			<field name="name">Banque Tunisienne de Solidarité - BTS</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">TUSOTNT1</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">56, Avenue Mohamed 5</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquetunisokoweitiennebtk0" model="res.bank">
+			<field name="name">Banque Tuniso-Koweitienne - BTK</field>
+			<field name="zip">1001</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BTKOTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">10 Bis Avenue Mohamed 5 B.P 49</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquetunisolibyennebtl0" model="res.bank">
+			<field name="name">Banque Tuniso-Libyenne - BTL</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">ATLDTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">25, avenue Kheireddine Pacha</field>
+			<field name="street2">Belvédère</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_banquezitouna0" model="res.bank">
+			<field name="name">Banque Zitouna</field>
+			<field name="zip">2015</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BZITTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">2 Boulevard Qualité de la Vie</field>
+			<field name="street2">Le Kram</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_bestbank0" model="res.bank">
+			<field name="name">BEST BANK</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BEITTNTT</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">88, Avenue Hédi CHAKER</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_citibank0" model="res.bank">
+			<field name="name">CITIBANK</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="street2">BELVEDERE</field>
+			<field name="bic">CITITNTXXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">55, Av. Jughurta</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_lapostetunisienne0" model="res.bank">
+			<field name="name">La Poste Tunisienne</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">LPTNTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_northafricainternationalbanknaib0" model="res.bank">
+			<field name="name">North Africa International Bank - NAIB</field>
+			<field name="zip">1080</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">NOAFTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Avenue Kheireddine Pacha Ennassim</field>
+			<field name="street2">Montplaisir</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_socittunisiennedebanquestb0" model="res.bank">
+			<field name="name">Société Tunisienne de Banque - STB</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">STBKTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Rue Hédi Nouira</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_stusid0" model="res.bank">
+			<field name="name">Société Tuniso-Séoudienne d’Investissement &amp; de Développement - STUSID</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">TSIDTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">32, Rue 7050 B.P2</field>
+			<field name="street2">Ancienne Route de la Soukra</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_tunisianqataribanktqb0" model="res.bank">
+			<field name="name">Tunisian Qatari Bank - TQB</field>
+			<field name="zip">1030</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">BTQITNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Centre Urbain Nord - BP.230</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_unionbancairepourlecommercelindustrieubci0" model="res.bank">
+			<field name="name">Union Bancaire pour le Commerce &amp; l’Industrie - UBCI</field>
+			<field name="zip">1002</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">UBCITNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">139, Avenue de la Liberté</field>
+			<field eval="1" name="active"/>
+		</record>
+
+		<record id="res_bank_unioninternationaledebanquesuib0" model="res.bank">
+			<field name="name">Union Internationale de Banques UIB</field>
+			<field name="zip">2035</field>
+			<field name="country" ref="base.tn"/>
+			<field name="bic">TUIBTNTTXXX</field>
+			<field model="res.country.state" name="state" search="[('name', '=', u'Tunis')]"/>
+			<field name="street">Rue du Lac Turkana</field>
+			<field name="street2">les Berges du Lac</field>
+			<field eval="1" name="active"/>
+		</record>
+
+	</data>
+    <data>
+    <!--    <record id="account_treasury_type_cheque" model="account.treasury.type">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="name">Chèque</field>
+			<field name="write_uid" ref="base.user_root"/>
+			<field eval="0" name="letter_of_credit"/>
+		</record>
+		<record id="account_treasury_type_traite" model="account.treasury.type">
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="name">Traite</field>
+			<field name="write_uid" ref="base.user_root"/>
+			<field eval="1" name="letter_of_credit"/>
+		</record>-->
+		<record id="account_journal_chque0" model="account.journal">
+			<field name="code">CHK</field>
+			<field eval="10" name="sequence"/>
+			<field eval="1" name="check_bank_name_visible"/>
+			<field eval="1" name="at_least_one_inbound"/>
+			<field eval="[(6,0,[])]" name="account_control_ids"/>
+			<field eval="0" name="is_check_resto"/>
+			<field eval="1" name="temporary_bank_journal"/>
+			<field eval="1" name="check_auto_fill_amount"/>
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="bank_statements_source">manual</field>
+			<field eval="0" name="group_invoice_lines"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1" name="check_info_required"/>
+			<field eval="1" name="check_bank_name_required"/>
+			<field eval="[(6,0,[ref('account.account_payment_method_manual_out')])]" name="outbound_payment_method_ids"/>
+			<field eval="1" name="check_bank_acc_visible"/>
+			<field eval="0" name="display_on_footer"/>
+			<field name="type">bank</field>
+			<field eval="1" name="show_on_dashboard"/>
+			<field eval="[(6,0,[])]" name="bank_ids"/>
+			<field eval="1" name="check_bank_acc_required"/>
+			<field eval="1" name="check_owner_visible"/>
+			<field eval="[(6,0,[ref('account.account_payment_method_manual_in')])]" name="inbound_payment_method_ids"/>
+			<field eval="[(6,0,[])]" name="type_control_ids"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field name="name">Chèque en caisse</field>
+			<field eval="1" name="check_owner_required"/>
+			<field eval="0" name="update_posted"/>
+			<field eval="1" name="journal_user"/>
+			<field eval="1" name="at_least_one_outbound"/>
+			<field eval="0" name="refund_sequence"/>
+		</record>
+
+		<record id="account_journal_chque1" model="account.journal">
+			<field name="code">CHKV</field>
+			<field eval="10" name="sequence"/>
+			<field eval="1" name="check_bank_name_visible"/>
+			<field eval="1" name="at_least_one_inbound"/>
+			<field eval="[(6,0,[])]" name="account_control_ids"/>
+			<field eval="0" name="is_check_resto"/>
+			<field eval="1" name="temporary_bank_journal"/>
+			<field eval="1" name="check_auto_fill_amount"/>
+			<field name="create_uid" ref="base.user_root"/>
+			<field name="bank_statements_source">manual</field>
+			<field eval="0" name="group_invoice_lines"/>
+			<field name="company_id" ref="base.main_company"/>
+			<field eval="1" name="check_info_required"/>
+			<field eval="1" name="check_bank_name_required"/>
+			<field eval="[(6,0,[ref('account.account_payment_method_manual_out')])]" name="outbound_payment_method_ids"/>
+			<field eval="1" name="check_bank_acc_visible"/>
+			<field eval="0" name="display_on_footer"/>
+			<field name="type">bank</field>
+			<field eval="1" name="show_on_dashboard"/>
+			<field eval="[(6,0,[])]" name="bank_ids"/>
+			<field eval="1" name="check_bank_acc_required"/>
+			<field eval="1" name="check_owner_visible"/>
+			<field eval="[(6,0,[ref('account.account_payment_method_manual_in')])]" name="inbound_payment_method_ids"/>
+			<field eval="[(6,0,[])]" name="type_control_ids"/>
+			<field name="write_uid" ref="base.user_root"/>
+			<field name="name">Chèque versé</field>
+			<field eval="1" name="check_owner_required"/>
+			<field eval="0" name="update_posted"/>
+			<field eval="1" name="journal_user"/>
+			<field eval="1" name="at_least_one_outbound"/>
+			<field eval="0" name="refund_sequence"/>
+		</record>
+    </data>
+</odoo>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="invoice_exempt_form" model="ir.ui.view">
+            <field name="name">account.invoice.exempt.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <!--<field name="account_id" position="after">-->
+                    <!--<field name="exemption_certificate_id" attrs="{'invisible':[('vat_exemption','=',False)]}"/>-->
+                    <!--<field name="vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>-->
+                    <!--<field name="date_vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>-->
+                <!--</field>-->
+                <field  name="date_invoice" position="after">
+                    <field name="date_invoice2" invisible="1"/>
+                    <field name="exemption_certificate_id" attrs="{'invisible':[('vat_exemption','=',False)]}"/>
+                    <field name="vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>
+                    <field name="date_vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>
+                </field>
+                <field  name="move_id" position="after">
+                    <field name="vat_exemption" invisible="1"/>
+                </field>
+                <xpath expr="//field[@name='amount_untaxed']" position="after">
+                        <field name="amount_discount"/>
+                        <field name="amount_total_afdiscount"/>
+                       <field name="fodec_tax"/>
+                </xpath>
+                <!--<xpath expr="/sheet/notebook/page/group[1]/group[2]/field[@name='amount_tax']" position="replace">-->
+                    <!--<group>-->
+                        <!--<label for="amount_tax_exempt"/>-->
+                        <!--<field name="amount_tax_exempt" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                    <!--</group>-->
+                <!--</xpath>-->
+                <!--<label for="amount_tax" position="replace">-->
+                    <!--<label for="amount_tax_exempt"/>-->
+                <!--</label>-->
+                <field name="amount_tax" position="replace">
+                    <label for="amount_tax_exempt"/>
+                    <field name="amount_tax_exempt" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="invoice_supplier_exempt_form" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.exempt.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <!--<field name="account_id" position="after">-->
+                    <!--<field name="exemption_certificate_id" attrs="{'invisible':[('vat_exemption','=',False)]}"/>-->
+                    <!--<field name="vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>-->
+                    <!--<field name="date_vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>-->
+                <!--</field>-->
+                <field  name="date_invoice" position="after">
+                    <field name="date_invoice2" invisible="1"/>
+                    <field name="exemption_certificate_id" attrs="{'invisible':[('vat_exemption','=',False)]}"/>
+                    <field name="vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>
+                    <field name="date_vat_order" attrs="{'required':[('vat_exemption','=',True)],'invisible':[('vat_exemption','=',False)]}"/>
+                </field>
+                <field  name="move_id" position="after">
+                    <field name="vat_exemption" invisible="1"/>
+                </field>
+                <!--<xpath expr="/sheet/notebook/page/group[1]/group[2]/field[@name='amount_tax']" position="replace">-->
+                    <!--<group>-->
+                        <!--<label for="amount_tax_exempt"/>-->
+                        <!--<field name="amount_tax_exempt" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                    <!--</group>-->
+                <!--</xpath>-->
+                <!--<label for="amount_tax" position="replace">-->
+                    <!--<label for="amount_tax_exempt"/>-->
+                <!--</label>-->
+                <field name="amount_tax" position="replace">
+                    <label for="amount_tax_exempt"/>
+                    <field name="amount_tax_exempt" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

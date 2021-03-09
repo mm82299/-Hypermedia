@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="sale_exemption_journal_line_tree">
+            <field name="name">sale.exemption.journal.line.tree</field>
+            <field name="model">sale.exemption.journal.line</field>
+            <field name="arch" type="xml">
+                <tree string="Tree sale exemption journal" create="false" editable="top" delete="false">
+                    <field name="name" readonly="1"/>
+                    <field name="invoice_id" readonly="1"/>
+                    <field name="invoice_date" readonly="1"/>
+                    <field name="id_type" readonly="1"/>
+                    <field name="vat" readonly="1"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="address" readonly="1"/>
+                    <field name="exemption_certificate" readonly="1"/>
+                    <field name="exemption_date_start" readonly="1"/>
+                    <field name="vat_order" readonly="1"/>
+                    <field name="vat_order_date" readonly="1"/>
+                    <field name="amount_ht" readonly="1"/>
+                    <field name="fodec_rate" readonly="1"/>
+                    <field name="fodec_amount" readonly="1"/>
+                    <field name="dc_rate" readonly="1"/>
+                    <field name="dc_amount" readonly="1"/>
+                    <field name="tax_rate" readonly="1"/>
+                    <field name="tax_amount" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sale_exemption_journal_lines_search" model="ir.ui.view">
+            <field name="name">sale.exemption.journal.line.search</field>
+            <field name="model">sale.exemption.journal.line</field>
+            <field name="arch" type="xml">
+                <search string="Search sale Exemption Journal Lines">
+                    <field name="name"/>
+                    <field name="exemption_certificate"/>
+                    <field name="vat_order"/>
+                    <field name="vat_order_date"/>
+                    <field name="vat"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Exemption Certificate" name="exemption_certificate" domain="[]" context="{'group_by':'exemption_certificate'}"/>
+                        <filter string="VAT" name="vat" domain="[]" context="{'group_by':'vat'}"/>
+                        <filter string="Partner" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_exemption_sale_line">
+            <field name="name">Exemption sale Lines</field>
+            <field name="res_model">sale.exemption.journal.line</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <menuitem id="action_exemption_menu" name="Exemption Journal" parent="account.menu_finance_entries"/>
+
+        <menuitem id="action_exemption_sale_menu" name="Sale Lines" parent="action_exemption_menu"
+                  action="action_exemption_sale_line" sequence="10"/>
+
+        <!-- Exemption journal definition -->
+
+        <record id="view_sale_exemption_journal_form" model="ir.ui.view">
+            <field name="name">sale.exemption.journal.form</field>
+            <field name="model">sale.exemption.journal</field>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <form string="Sale Exemption journal form">
+                    <header>
+                        <button string="Confirm Journal" name="button_confirm" states="draft" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <button string="Set To Draft" name="button_draft" states="valid" type="object" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,valid"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="fiscal_year_id" default_focus="1"/>
+                            </group>
+                            <group>
+                                <field name="period"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="total_ht"/>
+                                <field name="total_fodec"/>
+
+                            </group>
+                            <group>
+                                <field name="total_tax"/>
+                                <field name="total_dc"/>
+                                <field name="num_invoice"/>
+                            </group>
+                        </group>
+                        <separator string="Exemption lines" />
+                        <field name="line_ids">
+                            <tree string="Exemption lines" create="false" delete="false" editable="top" default_order="name">
+                                <field name="name" readonly="1"/>
+                                <field name="invoice_id" readonly="1"/>
+                                <field name="invoice_date" readonly="1"/>
+                                <field name="id_type" readonly="1"/>
+                                <field name="vat" readonly="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="address" readonly="1"/>
+                                <field name="exemption_certificate" readonly="1"/>
+                                <field name="exemption_date_start" readonly="1"/>
+                                <field name="vat_order" readonly="1"/>
+                                <field name="vat_order_date" readonly="1"/>
+                                <field name="amount_ht" readonly="1"/>
+                                <field name="fodec_rate" readonly="1"/>
+                                <field name="fodec_amount" readonly="1"/>
+                                <field name="dc_rate" readonly="1"/>
+                                <field name="dc_amount" readonly="1"/>
+                                <field name="tax_rate" readonly="1"/>
+                                <field name="tax_amount" readonly="1"/>
+                                <field name="journal_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sale_exemption_journal_tree">
+            <field name="name">sale.exemption.journal.tree</field>
+            <field name="model">sale.exemption.journal</field>
+            <field name="arch" type="xml">
+                <tree string="Tree exemption journal">
+                    <field name="name" />
+                    <field name="fiscal_year_id"/>
+                    <field name="period"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sale_exemption_journal_search" model="ir.ui.view">
+            <field name="name">sale.exemption.journal.search</field>
+            <field name="model">sale.exemption.journal</field>
+            <field name="arch" type="xml">
+                <search string="Search sale Exemption Journal">
+                    <field name="name"/>
+                    <field name="fiscal_year_id"/>
+                    <field name="period"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Fiscal year" name="fiscal_year_id" domain="[]" context="{'group_by':'fiscal_year_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_sale_exemption_journal">
+            <field name="name">Sale Exemption Journal</field>
+            <field name="res_model">sale.exemption.journal</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="action_sale_exemption_journal_menu" name="Sale Journal" parent="action_exemption_menu"
+                  action="action_sale_exemption_journal" sequence="20"/>
+    </data>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Add a checkbox to the accounting configuration -->
+        <record id="view_accounting_withholding_tax_config_settings_inherit" model="ir.ui.view">
+            <field name="name">accounting withholding_tax settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <group name="tunisian_accounting_features" string="Tunisian Accounting Features">
+                        <label for="id" string="Tunisian Accounting Features"/>
+                        <div>
+                            <div>
+                                <field name="module_accounting_withholding_tax" class="oe_inline" eval="1"/>
+                                <label for="module_accounting_withholding_tax"/>
+                            </div>
+                            <div>
+                                <field name="module_treasury" class="oe_inline" eval="1"/>
+                                <label for="module_treasury"/>
+                            </div>
+                            <div>
+                                <field name="module_treasury_pos" class="oe_inline" eval="1"/>
+                                <label for="module_treasury_pos"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
