@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_form_stamp" model="ir.ui.view">
+            <field name="name">stamp.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_vat.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="have_stamp_tax"/>
+                </field>
+                <field name="vat" position="attributes">
+                    <attribute name="placeholder">TN 1234567ABC000</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">stamp.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <page name="accounting" position="after">
+                    <page string="Exemption Certificate" col="4"
+                          attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}"
+                          groups="account.group_account_user,account.group_account_manager">
+                        <group name="vat_exemption">
+                            <field name="vat_exemption"/>
+                        </group>
+                        <separator string="Exemption Certificate" />
+                            <field name="exemption_certificate_ids" >
+                                <tree editable="top">
+                                    <field name="name"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="certificate"/>
+                                </tree>
+                            </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>

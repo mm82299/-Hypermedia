@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
+			<xpath expr="//div[@class='page']/p[position()=last()]" position="after">							
+				<br/><br/><br/><br/>
+				<h4>
+					<B>Arréter le présent Devis a la Somme de :</B>
+				</h4>							
+				<h4 t-esc="doc.get_amount_letter()"/>	
+				<br/><br/>
+				<div class="row">
+					<div class="col-xs-3">
+							<u><h3>Signature du client</h3></u>						
+					</div>
+					<div class="col-xs-3 small pull-right">
+							<u><h3>Signature et cachet</h3></u>		
+					</div>				
+				</div>
+   			</xpath>
+		</template>
+	</data>
+</odoo>

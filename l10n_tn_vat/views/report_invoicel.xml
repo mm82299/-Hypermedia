@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_invoice_document" inherit_id="account.report_invoice_document">
+			<xpath expr="//div[@class='page']/p[position()=last()]" position="after">							
+				<br/><br/><br/><br/>
+				<h4>
+					<B>Arréter la présente Facture à la Somme de :</B>
+				</h4>							
+				<h4 t-esc="o.get_amount_letter()"/>	
+				<br/><br/>
+				<u><div align="right"><h3>Signature et cachet</h3></div></u>
+   			</xpath>
+		</template>
+	</data>
+</odoo>

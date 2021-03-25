@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="report_account_invoice" name="Certificat Retenue A La Source">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.html_container">
+            	        <!-- Multicompany -->
+				        <t t-if="o and 'company_id' in o">
+				            <t t-set="company" t-value="o.company_id"/>
+				        </t>
+				        <t t-if="not o or not 'company_id' in o">
+				            <t t-set="company" t-value="res_company"/>
+				        </t>
+	                    <div class="header">
+	        				<div class="row">
+	        					<div class="col-xs-6 text-center">
+	        						<span><strong>REPUBLIQUE TUNISIENNE <br/></strong></span>
+	        						<span><strong>MINISTERE DU PLAN ET DES FINANCES<br/></strong></span>
+	        						<span><strong>DIRECTION GENERAL DE CONTROLE FISCAL<br/></strong></span>
+	        					</div>
+	        					<div class="col-xs-6 text-center">
+	        						<span><strong>CERTIFICAT DE RETENUE D'IMPOT<br/></strong></span>
+	        						<span><strong>SUR LE REVENUE<br/></strong></span>
+	        						<span><strong>OU D'IMPOT SUR LES SOCIETES<br/></strong></span>
+	        					</div>
+	        				</div>
+	                    </div>
+	                    <div class="article">
+		                    	<t t-set="write_offs" t-value="o.payment_ids.filtered(lambda p:p.writeoff_account_id == company.tds_account_id)"/>
+		                    	<t t-if="write_offs">
+		                    		<t t-foreach="write_offs" t-as="writeoff">
+		                    			<div class="page">
+					                    	<div class="row text-center">
+					        					<span>Retenue effectuée le : <span t-field="writeoff.payment_date"/></span>
+					        				</div>
+					        				<div class="row">
+					        					<h3>
+					        						<span>A - PERSONNE OU ORGANISME PAYEUR :</span>
+					        					</h3>
+							                    <div class="row">
+							                        <div name="invoice_address" class="col-xs-3">
+							                            <address t-field="o.partner_id"
+							                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+							                        </div>
+							                        <div class="col-xs-6 small pull-right">
+							                        	<table class="table small">
+							                        		<tr>
+							                        			<th>
+							                        				Matricule Fiscale
+							                        			</th>
+							                        			<th>
+							                        				Code TVA
+							                        			</th>
+							                        			<th>
+							                        				Code catégorie
+							                        			</th>
+							                        			<th>
+							                        				N° Etab.Secondaire
+							                        			</th>
+							                        		</tr>
+							                        		<tr>
+							                        			<td>
+							                        				<span t-esc="o.partner_id.vat[:8]"/>
+							                        			</td>
+							                        			<td>
+							                  						<span t-esc="o.partner_id.vat[8:9]"/>
+							                        			</td>
+							                        			<td>
+							                  						<span t-esc="o.partner_id.vat[9:10]"/>
+							                        			</td>
+							                        			<td>
+							                  						<span t-esc="o.partner_id.vat[10:]"/>		
+							                        			</td>
+							                        		</tr>
+							                        	</table>
+							                        </div>
+							                    </div>
+                    					    </div>
+                    					    <div class="row">
+					        					<h3>
+					        						<span>B - BENEFICIAIRE :</span>
+					        					</h3>
+							                    <div class="row">
+							                        <div name="invoice_address" class="col-xs-3">
+							                            <address t-field="company.partner_id"
+							                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+							                        </div>
+							                        <div class="col-xs-6 small pull-right">
+							                        	<table class="table small">
+							                        		<tr>
+							                        			<th>
+							                        				Matricule Fiscale
+							                        			</th>
+							                        			<th>
+							                        				Code TVA
+							                        			</th>
+							                        			<th>
+							                        				Code catégorie
+							                        			</th>
+							                        			<th>
+							                        				N° Etab.Secondaire
+							                        			</th>
+							                        		</tr>
+							                        		<tr>
+							                        			<td>
+							                        				<span t-esc="company.partner_id.vat[:8]"/>
+							                        			</td>
+							                        			<td>
+							                  						<span t-esc="company.partner_id.vat[8:9]"/>
+							                        			</td>
+							                        			<td>
+							                  						<span t-esc="company.partner_id.vat[9:10]"/>
+							                        			</td>
+							                        			<td>
+							                  						<span t-esc="company.partner_id.vat[10:]"/>		
+							                        			</td>
+							                        		</tr>
+							                        	</table>
+							                        </div>
+							                    </div>
+                    					    </div>
+                    					    <div class="row">
+					        					<h3>
+					        						<span>C - INFORMATIONS RELATIVES AU MARCHE :</span>
+					        					</h3>
+					        					<p> Date de facture <span t-field="o.date_invoice"/></p>
+					        					<p> Numéro de facture <span t-field="o.number"/></p>
+					        				</div>
+                    					    <div class="row">
+					        					<h3>
+					        						<span>D - MONTANTS PAYES :</span>
+					        					</h3>
+													<table class="table small">
+						                        		<tr>
+						                        			<th>
+						                        			</th>
+						                        			<th colspan="2" class="text-center">
+						                        				Retenu a la source IR/IS
+						                        			</th>
+						                        			<th>
+						                        			</th>
+						                        		</tr>
+						                        		<tr>
+						                        			<th>
+						                        				Montant TTC
+						                        			</th>
+						                        			<th>
+						                        				Taux de la retenue
+						                        			</th>
+						                        			<th>
+						                        				Montant de la retenue
+						                        			</th>
+						                        			<th>
+						                        				Montant Net
+						                        			</th>
+						                        		</tr>						             
+						                        		<tr>
+						                        			<td>
+						                        				<span t-field="o.amount_total"/>
+						                        			</td>
+						                        			<td>
+						                  						<span t-field="writeoff.tds_perc"/> %
+						                        			</td>
+						                        			<td>
+						                  						<span t-esc="o.amount_total-writeoff.amount" t-options='{"widget": "monetary", "display_currency": writeoff.currency_id}'/>
+						                        			</td>
+						                        			<td>
+						                  						<span t-field="writeoff.amount"/>
+						                        			</td>
+						                        		</tr>
+						                        	</table>
+					        				</div>
+					        				<div class="row">
+					        					<p>
+					        						Je sousigné, certifie exacts les renseignements figurant sur la présent  certificat et m'expose aux sanctions prévues par la loi pour toute inexactitude.
+					        					</p>
+					        				</div>
+					        				<div class="row">
+					        					<div class="col-xs-3 col-xs-offset-6">
+					        						<span t-field="company.partner_id.city"/> le <span t-field="writeoff.payment_date"/>
+					        					</div>
+					        				</div>
+
+					        			</div>
+			        				</t>
+			        			</t>
+		                    	<t t-if="not write_offs">
+			                    	<div class="row text-center">
+			                    		<page>
+			        						<span>Pas de retenue a la source</span>
+			        					</page>
+			        				</div>
+			        			</t>
+	                	</div>
+	                    <div class="footer">
+	        
+	                    </div>
+	                </t>
+            </t>
+        </template>
+        
+        <report
+            id="action_report_account_invoice"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            string="Certificat Retenue A La Source"
+            name="l10n_tn_vat.report_account_invoice"
+            file="l10n_tn_vat.report_account_invoice" />
+
+    </data>
+</odoo>

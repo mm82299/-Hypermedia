@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model="ir.ui.view" id="view_res_config_settings_form_inherit">
+    	    <field name="name">res.config.settings.form.inherit</field>
+    	    <field name="model">res.config.settings</field>
+    	    <field name="type">form</field>
+    	    <field name="inherit_id" ref="account.res_config_settings_view_form" />
+    	    <field name="arch" type="xml">
+    	        <xpath expr="//div[@id='rounding_method']" position="before">
+					<div class="col-xs-12 col-md-6 o_setting_box" title="Retainer account.">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <label string='Default Retainer Account'/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                            <div class="text-muted">
+                                Tax deduction at source retainer account
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="TDS Account" for="tds_account_id" class="col-md-3 o_light_label"/>
+                                    <field name="tds_account_id" domain="[('company_id', '=', company_id)]"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    	        </xpath>
+    	    </field>
+    	</record>
+    </data>
+</odoo>

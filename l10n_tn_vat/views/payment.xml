@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record model="ir.ui.view" id="view_account_payment_invoice_form_inherit">
+    	    <field name="name">account.payment.form.inherit</field>
+    	    <field name="model">account.payment</field>
+    	    <field name="type">form</field>
+    	    <field name="inherit_id" ref="account.view_account_payment_invoice_form" />
+    	    <field name="arch" type="xml">
+    	        <xpath expr="//field[@name='payment_method_code']" position="after">
+    	            <field name="tds_perc" />
+    	            <field name="original_amount" invisible="1"/>
+    	        </xpath>
+    	    </field>
+    	</record>
+        
+    	<record model="ir.ui.view" id="view_account_payment_form_inherit">
+    	    <field name="name">account.payment.form.inherit</field>
+    	    <field name="model">account.payment</field>
+    	    <field name="type">form</field>
+    	    <field name="inherit_id" ref="account.view_account_payment_form" />
+    	    <field name="arch" type="xml">
+    	        <xpath expr="//field[@name='payment_method_code']" position="after">
+    	            <field name="tds_perc" />
+    	            <field name="original_amount" invisible="1"/>
+    	        </xpath>
+    	    </field>
+    	</record>
+
+    </data>
+</odoo>

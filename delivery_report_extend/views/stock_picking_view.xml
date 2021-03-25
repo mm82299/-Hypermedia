@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_delivery_extend" model="ir.ui.view">
+        <field name="name">delivery.stock.picking_extend.form.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+          <data>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="date_de_Livraison"/>
+                <field name="Nom_du_hauffeur"/>
+                <field name="immatriculation_camion"/>
+            </xpath>
+          </data>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="account.tax.group" id="account_tax_group_stamp">
+            <field name="name">Stamp</field>
+        </record>
+        
+        <record model="account.tax" id="account_tax_sale_stamp">
+            <field name="name">Timbre Fiscale</field>
+            <field name="type_tax_use">sale</field>
+            <field name="amount_type">fixed</field>
+            <field name="amount">0.60</field>
+            <field name="tax_group_id" ref="account_tax_group_stamp"/>
+        </record>
+
+    </data>
+</openerp>
